@@ -1,3 +1,6 @@
+from typing_extensions import Self
+
+
 class Faction: 
     def __init__(self, name=" ", enemypointer1=0, enemypointer2=0 , units=0, attackpoint=0, healthpoint=0, regnumber=0, totalhealth=0, flag=True):
         self.name = name
@@ -10,22 +13,45 @@ class Faction:
         self.totalhealth = totalhealth
         self.flag = flag
 
+    def PrintFaction(self, player):
+        if player == Game().player1:
+            print(Game().player1)
+
 class Orcs(Faction):
-    def __init__(self, name, enemypointer1, enemypointer2, units, attackpoint, healthpoint, regnumber, totalhealth, flag):
-        super().__init__(name, enemypointer1, enemypointer2, units, attackpoint, healthpoint, regnumber, totalhealth, flag)
-        
-    def constructor(orc):
-        lala = int(input("enter input here:"))
-        print(lala)
-    def output_all(self):
-            print( '{} \n{} \n{} \n{}'.format(self.name,self.enemypointer1, self.healthpoint, 
-            self.regnumber))     
+
+    def __init__(self):
+        self.name = "Orcs"
+        self.enemypointer1 = 2
+        self.enemypointer2 = 3
+        self.units = int(input('Please give a unit for the Orcs Faction:'))
+        self.attackpoint = int(input('Please give an attack point for the Orcs Faction:'))
+        self.healthpoint = int(input('Please give an health point for the Orcs Faction:'))
+        self.regnumber = int(input('Please give an regeneration number for the Orcs Faction:'))
+        self.totalhealth = self.units * self.healthpoint
+        self.flag = True
+
 class Dwarves(Faction):
-    def __init__(self, name, enemypointer1, enemypointer2, units, attackpoint, healtpoint, regnumber, totalhealth, flag):
-        super().__init__(name, enemypointer1, enemypointer2, units, attackpoint, healtpoint, regnumber, totalhealth, flag)
+    def __init__(self):
+        self.name = "Dwarves"
+        self.enemypointer1 = 1
+        self.enemypointer2 = 3
+        self.units = int(input('Please give a unit for the Dwarves Faction:'))
+        self.attackpoint = int(input('Please give an attack point for the Dwarves Faction:'))
+        self.healthpoint = int(input('Please give an health point for the Dwarves Faction:'))
+        self.regnumber = int(input('Please give an regeneration number for the Dwarves Faction:'))
+        self.totalhealth = self.units * self.healthpoint
+        self.flag = True
 class Elves(Faction):
-    def __init__(self, name, enemypointer1, enemypointer2, units, attackpoint, healtpoint, regnumber, totalhealth, flag):
-        super().__init__(name, enemypointer1, enemypointer2, units, attackpoint, healtpoint, regnumber, totalhealth, flag)
+    def __init__(self):
+        self.name = "Elves"
+        self.enemypointer1 = 1
+        self.enemypointer2 = 2
+        self.units = int(input('Please give a unit for the Elves Faction:'))
+        self.attackpoint = int(input('Please give an attack point for the Elves Faction:'))
+        self.healthpoint = int(input('Please give an health point for the Elves Faction:'))
+        self.regnumber = int(input('Please give an regeneration number for the Elves Faction:'))
+        self.totalhealth = self.units * self.healthpoint
+        self.flag = True    
 
 class Merchant():
     def __init__(self, firstfraction, secondfraction, thirdfraction, weaponpointfirst, armorpointfirst, revenue, weaponpointleft, armorpointleft):
@@ -39,11 +65,15 @@ class Merchant():
         self.armorpointleft = armorpointleft
 
 def Game (): 
+
     msg = "Welcome to The Warmonger Game"
     print(msg)
-     
+    player1 = Orcs()
+    player2 = Dwarves()
+    player3 = Elves()
 
 Game()
+
 
 
 

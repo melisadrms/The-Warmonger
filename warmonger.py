@@ -1,6 +1,4 @@
-from typing_extensions import Self
-
-
+from tabulate import tabulate
 class Faction: 
     def __init__(self, name=" ", enemypointer1=0, enemypointer2=0 , units=0, attackpoint=0, healthpoint=0, regnumber=0, totalhealth=0, flag=True):
         self.name = name
@@ -12,10 +10,26 @@ class Faction:
         self.regnumber = regnumber
         self.totalhealth = totalhealth
         self.flag = flag
+    
+
 
     def PrintFaction(self, player):
-        if player == Game().player1:
-            print(Game().player1)
+        print("zabaduaad")
+        if self.flag == True:
+            status = "Alive"
+        else: 
+            status = "Defeat"
+
+        if player.name == "Orcs":
+            print(tabulate([
+                ['Status:', status],
+                ['Number of Units', self.units]],
+                headers=['Faction Name:', self.name]))
+            
+        elif player.name == "Dwarves":
+            print("Dwarves")
+        elif player.name == "Elves":
+            print("Elves")
 
 class Orcs(Faction):
 
@@ -41,6 +55,7 @@ class Dwarves(Faction):
         self.regnumber = int(input('Please give an regeneration number for the Dwarves Faction:'))
         self.totalhealth = self.units * self.healthpoint
         self.flag = True
+
 class Elves(Faction):
     def __init__(self):
         self.name = "Elves"
@@ -71,6 +86,7 @@ def Game ():
     player1 = Orcs()
     player2 = Dwarves()
     player3 = Elves()
+    player1.PrintFaction(player1)
 
 Game()
 

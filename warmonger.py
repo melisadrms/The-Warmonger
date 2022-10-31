@@ -11,16 +11,16 @@ class Faction:
         self.totalhealth = totalhealth
         self.flag = True
   
-    def AssignEnemies(self):
-        if self.name == "Orcs":
-            self.enemypointer1 = Dwarves()
-            self.enemypointer2 = Elves()
-        if self.name == "Dwarves":
-            self.enemypointer1 = Orcs()
-            self.enemypointer2 = Elves()
-        if self.name == "Elves":
-            self.enemypointer1 = Orcs()
-            self.enemypointer2 = Dwarves()
+    # def AssignEnemies(self):
+    #     if self.name == "Orcs":
+    #         self.enemypointer1 = Dwarves()
+    #         self.enemypointer2 = Elves()
+    #     if self.name == "Dwarves":
+    #         self.enemypointer1 = Orcs()
+    #         self.enemypointer2 = Elves()
+    #     if self.name == "Elves":
+    #         self.enemypointer1 = Orcs()
+    #         self.enemypointer2 = Dwarves()
     
     def PerformAttack(attacker):
         if attacker.name == "Orcs":
@@ -68,30 +68,31 @@ class Orcs(Faction):
         self.regnumber = 500
         self.totalhealth = self.units * self.healthpoint
         self.flag = True
+        self.attack = 0
     
     def PerformAttack(self, enemy1, enemy2):
         if (enemy1.flag==False and enemy2.flag==True) or (enemy1.flag==True and enemy2.flag==False):
-            attack = self.attackpoint * self.units
+            self.attack = self.attackpoint * self.units
         elif enemy1.flag==True and enemy2.flag==True:
             if enemy1.name == "Elves":
-                attack = (self.units * 0.7) * self.attackpoint
-                enemy1.ReceiveAttack(attack,self.name)
+                self.attack = (self.units * 0.7) * self.attackpoint
+                enemy1.ReceiveAttack(self.name,self.attack)
             if enemy2.name == "Elves":
-                attack = (self.units * 0.7) * self.attackpoint
-                enemy2.ReceiveAttack(attack,self.name)
+                self.attack = (self.units * 0.7) * self.attackpoint
+                enemy2.ReceiveAttack(self.name,self.attack)
             if enemy1.name == "Dwarves" : 
-                attack = (self.units * 0.3) * self.attackpoint
-                enemy1.ReceiveAttack(attack)
+                self.attack = (self.units * 0.3) * self.attackpoint
+                enemy1.ReceiveAttack(self.attack)
             if enemy2.name == "Dwarves" :
-                attack = (self.units * 0.3) * self.attackpoint
-                enemy2.ReceiveAttack(attack)
+                self.attack = (self.units * 0.3) * self.attackpoint
+                enemy2.ReceiveAttack(self.attack)
 
-    def ReceiveAttack(self,attack,attacker):
+    def ReceiveAttack(self,attacker, attack):
         if attacker == "Elves":
             attack -= attack * 0.75
         elif attacker == "Dwarves":
             attack -= attack * 0.8
-        self.units -= attack / self.healthpoint
+        self.units -= attack // self.healthpoint
     
     def PurchaseWeapon(self,weaponPoints):
         self.attackpoint += 2*weaponPoints
@@ -99,68 +100,69 @@ class Orcs(Faction):
         print(gold_to_return)
         return gold_to_return
     
-    def PurchaseArmors(self,armorPoints):
+    def PurchaseArmor(self,armorPoints):
         self.healthpoint = self.healthpoint + 3*armorPoints
         gold_to_return = 1*armorPoints
         return gold_to_return
 
-    def printorc():
+    def printorc(self):
         print("Stop running, you’ll only die tired!")
 
 class Dwarves(Faction):
     def __init__(self):
         self.name = "Dwarves"
-        self.units = 500
+        self.units = 50
         self.attackpoint = 500
         self.healthpoint = 500
         self.regnumber = 500
         self.totalhealth = self.units * self.healthpoint
         self.flag = True
+        self.attack = 0
 
     def PerformAttack(self, enemy1, enemy2):
         if (enemy1.flag==False and enemy2.flag==True) or (enemy1.flag==True and enemy2.flag==False):
             self.attack = self.attackpoint * self.units
-            print("")
         elif enemy1.flag==True and enemy2.flag==True:
             if enemy1.name == "Orcs":
                 self.attack = (self.units * 0.5) * self.attackpoint
-                enemy1.ReceiveAttack(self.attack,self.name)
+                enemy1.ReceiveAttack(self.name,self.attack)
             if enemy2.name == "Orcs":
                 self.attack = (self.units * 0.5) * self.attackpoint
-                enemy2.ReceiveAttack(self.attack,self.name)
+                enemy2.ReceiveAttack(self.name,self.attack)
 
             if enemy1.name == "Elves" : 
                 self.attack = (self.units * 0.5) * self.attackpoint
-                enemy1.ReceiveAttack(self.attack,self.name)
+                enemy1.ReceiveAttack(self.name,self.attack)
             if enemy2.name == "Elves" :
                 self.attack = (self.units * 0.5) * self.attackpoint
-                enemy2.ReceiveAttack(self.attack,self.name)
+                enemy2.ReceiveAttack(self.name,self.attack)
 
-    def ReceiveAttack(self,attack):
-        self.units -= attack / self.healthpoint
+    def ReceiveAttack(self, attack):
+        self.units -= attack // self.healthpoint
 
     def PurchaseWeapon(self,weaponPoints):
         self.attackpoint += weaponPoints
         gold_to_return = 10*weaponPoints
         return gold_to_return
     
-    def PurchaseArmors(self,armorPoints):
+    def PurchaseArmor(self,armorPoints):
         self.healthpoint = self.healthpoint + 2* armorPoints
         gold_to_return = 3*armorPoints
         return gold_to_return
     
-    def printdwarves():
+    def printdwarves(self):
         print("Taste the power of our axes!")
 
 class Elves(Faction):
     def __init__(self):
         self.name = "Elves"
-        self.units = 500
+        self.units = 50
         self.attackpoint = 500
         self.healthpoint = 500
         self.regnumber = 500
         self.totalhealth = self.units * self.healthpoint
         self.flag = True 
+        self.attack = 0 
 
     def PerformAttack(self, enemy1, enemy2):
 
@@ -169,36 +171,37 @@ class Elves(Faction):
         elif enemy1.flag==True and enemy2.flag==True:
             if enemy1.name == "Orcs":
                 self.attack = (self.units * 0.6) * self.attackpoint
-                enemy1.ReceiveAttack(self.attack,self.name)
+                enemy1.ReceiveAttack(self.name,self.attack)
             if enemy2.name == "Orcs":
                 self.attack = (self.units * 0.6) * self.attackpoint
-                enemy2.ReceiveAttack(self.attack,self.name)
+                enemy2.ReceiveAttack(self.name,self.attack)
 
             if enemy1.name == "Dwarves" : 
                 self.attack = (self.units * 0.4) * (self.attackpoint*1.5)
-                enemy1.ReceiveAttack(self.attack,self.name)
+                enemy1.ReceiveAttack(self.attack)
             if enemy2.name == "Dwarves" :
                 self.attack = (self.units * 0.4) * (self.attackpoint*1.5)
-                enemy2.ReceiveAttack(self.attack,self.name)
+                enemy2.ReceiveAttack(self.attack)
 
-    def ReceiveAttack(self,attack,attacker):
+    def ReceiveAttack(self,attacker, attack):
         if attacker == "Orcs":
             attack += attack * 1.25
+
         elif attacker == "Dwarves":
             attack -= attack * 0.75
-        self.units -= attack / self.healthpoint
+        self.units -= attack // self.healthpoint
     
     def PurchaseWeapon(self,weaponPoints):
         self.attackpoint += weaponPoints * 2
         gold_to_return = 15*weaponPoints
         return gold_to_return
     
-    def PurchaseArmors(self,armorPoints):
+    def PurchaseArmor(self,armorPoints):
         self.healthpoint = self.healthpoint + 4* armorPoints
         gold_to_return = 5* armorPoints
         return gold_to_return
 
-    def printelves():
+    def printelves(self):
         print("You cannot reach our elegance.") 
 
 class Merchant():
@@ -224,17 +227,15 @@ class Merchant():
             player.enemypointer2 == Dwarves()
 
     def sellWeapons(self ,player, weaponpoint):
-        gold_to_return = 0
         if player.flag == False:
             print("The faction you want to sell weapons is dead!")
         elif weaponpoint > self.weaponpointleft:
             print("You try to sell more weapons than you have in possession.")
         else:
-            player.PurchaseWeapon(weaponpoint)
+            gold_to_return = player.PurchaseWeapon(weaponpoint)
             self.weaponpointleft = self.weaponpointleft - weaponpoint
             print("Weapons Sold!")
             self.revenue += gold_to_return
-            print(self.revenue)
 
     def sellArmors(self ,player, armorpoint):
         if player.flag == False:
@@ -242,8 +243,9 @@ class Merchant():
         elif armorpoint > self.armorpointleft:
             print("You try to sell more armors than you have in possession.")
         else:
-            player.PurchaseArmor(armorpoint)
+            gold_to_return = player.PurchaseArmor(armorpoint)
             self.armorpointleft = self.armorpointleft - armorpoint
+            self.revenue += gold_to_return
             print("Armors Sold!")
     
     def EndTurn(self):
@@ -256,15 +258,67 @@ def Game ():
     player1 = Orcs()
     player2 = Dwarves()
     player3 = Elves()
-    Faction.AssignEnemies(player1)
-    Faction.AssignEnemies(player2)
-    Faction.AssignEnemies(player3)
+    player1.enemypointer1 = player2
+    player1.enemypointer2 = player3
+    player2.enemypointer1 = player1
+    player2.enemypointer2 = player3
+    player3.enemypointer1 = player1
+    player3.enemypointer2 = player2
     merchant = Merchant()
-    Faction.PerformAttack(player1)
     merchant.weaponpointleft = merchant.weaponpointfirst
-    Merchant.sellWeapons(merchant,player1,30)
+    merchant.armorpointleft = merchant.armorpointfirst
 
-#236 gold_to_return'e bakacaksın
+    dead_counter = 3
+    while dead_counter >= 1:
+        
+        dead_counter =3
+        if player1.flag == False:
+            dead_counter -= 1
+        else: 
+            if player1.attackpoint > 0:
+                Faction.PerformAttack(player1)
+                player1.printorc()
+        if player2.flag == False:
+            dead_counter -= 1
+        else: 
+            if player2.attackpoint > 0:
+                Faction.PerformAttack(player2)
+                player2.printdwarves()
+        if player3.flag == False:
+            dead_counter -= 1
+        else:
+            if player3.attackpoint > 0: 
+                Faction.PerformAttack(player3)
+                player3.printelves()
+
+        if player1.attackpoint > player1.healthpoint:
+            merchant.sellWeapons(player1,10)
+        else:
+            merchant.sellArmors(player1,10)
+
+        if player2.attackpoint > player2.healthpoint:
+            merchant.sellWeapons(player2,10)
+        else:
+            merchant.sellArmors(player2,10)
+
+        if player3.attackpoint > player3.healthpoint:
+            merchant.sellWeapons(player3,10)
+        else:
+            merchant.sellArmors(player3,10)
+        
+        if player1.healthpoint < 0:
+            player1.flag = False
+        if player2.healthpoint < 0:
+            player2.flag = False
+        if player3.healthpoint < 0:
+            player3.flag = False
+        
+        Faction.PrintFaction(player1)
+        Faction.PrintFaction(player2)
+        Faction.PrintFaction(player3)
+
+        merchant.EndTurn()
+        input("Press enter to end turn:")
 
 Game()
 
